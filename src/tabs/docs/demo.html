@@ -1,10 +1,22 @@
 <div ng-controller="TabsDemoCtrl">
+    <h3>Basic tabs</h3>
     <tabs>
-        <pane heading="Static title">Static content</pane>
-        <pane ng-repeat="pane in panes" heading="{{pane.title}}" active="pane.active">{{pane.content}}</pane>
+        <pane heading="Static title" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lacinia, ante sit amet pharetra vulputate, augue velit dignissim libero, in blandit neque sapien at sapien. Sed lacinia tellus quis risus consectetur egestas. In hac habitasse platea dictumst.
+        </pane>
+        <pane ng-repeat="pane in panes" heading="{{pane.title}}" active="pane.active" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">{{pane.content}}</pane>
     </tabs>
-    <div class="row-fluid">
-        <button class="btn" ng-click="panes[0].active = true">Select second tab</button>
-        <button class="btn" ng-click="panes[1].active = true">Select third tab</button>
-    </div>
+    <p>
+        <button class="btn btn-mini" ng-click="panes[0].active = true">Select second tab</button>
+        <button class="btn btn-mini" ng-click="panes[1].active = true">Select third tab</button>
+    </p>
+    <h3>Different tab placements</h3>
+    <h4>Left</h4>
+    <tabs placement="left">
+        <pane ng-repeat="pane in panes" heading="{{pane.title}}">{{pane.content}}</pane>
+    </tabs>
+    <h4>Right</h4>
+    <tabs placement="right">
+        <pane ng-repeat="pane in panes" heading="{{pane.title}}">{{pane.content}}</pane>
+    </tabs>
 </div>

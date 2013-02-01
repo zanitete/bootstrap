@@ -29,7 +29,9 @@ angular.module('ui.bootstrap.tabs', [])
   return {
     restrict: 'EA',
     transclude: true,
-    scope: {},
+    scope: {
+      placement: '@'
+    },
     controller: 'TabsController',
     templateUrl: 'template/tabs/tabs.html',
     replace: true
