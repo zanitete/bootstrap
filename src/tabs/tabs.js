@@ -1,5 +1,5 @@
 angular.module('ui.bootstrap.tabs', [])
-.controller('TabsController', ['$scope', '$element', function($scope, $element) {
+.controller('TabsController', ['$rootScope', '$scope', '$element', function($rootScope, $scope, $element ) {
   var panes = $scope.panes = [];
 
   this.select = $scope.select = function selectPane(pane) {
@@ -9,6 +9,15 @@ angular.module('ui.bootstrap.tabs', [])
     pane.selected = true;
   };
 
+  $scope.editName = function(pane, newName) {
+    console.log($scope);
+    pane.editEnabled = false;
+    if(newName !== '' && pane.heading != newName) {
+      pane.heading = newName;
+      $rootScope.$emit('saveView', newName );
+    }
+  };
+
   this.addPane = function addPane(pane) {
     if (!panes.length) {
       $scope.select(pane);
@@ -16,13 +25,18 @@ angular.module('ui.bootstrap.tabs', [])
     panes.push(pane);
   };
 
-  this.removePane = function removePane(pane) { 
+  this.removePane = $scope.removePane = function removePane(pane) { 
     var index = panes.indexOf(pane);
     panes.splice(index, 1);
     //Select a new pane if removed pane was selected 
     if (pane.selected && panes.length > 0) {
-      $scope.select(panes[index < panes.length ? index : index-1]);
+      pane.selected = false;
+      newIndex = index < panes.length ? index : index-1;
+      newSel = panes[newIndex].addnewpane ? panes[newIndex-1] : panes[newIndex];
+      $scope.select(newSel);
     }
+    
+    $rootScope.$emit('removePane', pane.heading );
   };
 }])
 .directive('tabs', function() {
@@ -41,7 +55,10 @@ angular.module('ui.bootstrap.tabs', [])
     restrict: 'EA',
     transclude: true,
     scope:{
-      heading:'@'
+      heading:'@',
+      closable:'@',
+      editable:'@',
+      addnewpane:'@'
     },
     link: function(scope, element, attrs, tabsCtrl) {
       var getSelected, setSelected;
